@@ -1,11 +1,9 @@
-export type ApiListResponse<Type> = {
-    total: number,
-    items: Type[]
-};
+import { ApiPostMethods, IApi } from '../../types';
 
-export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
-
-export class Api {
+/**
+ * Базовый (Родительский) класс обращения к api
+ */
+export class Api implements IApi {
     readonly baseUrl: string;
     protected options: RequestInit;
 
