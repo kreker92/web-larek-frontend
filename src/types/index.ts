@@ -19,6 +19,7 @@ export type ApiListResponse<Type> = {
 	total: number;
 	items: Type[];
 };
+// ILarekItem
 
 /**
  * Поля карточки товара
@@ -54,14 +55,6 @@ export interface IOrder extends IOrderForm {
 	items: Pick<ILarekItem, 'id'>[];
 	total: number;
 }
-
-/**
- * Тип ответа на запрос списка товаров
- * */
-type ILarekItemsResponse = {
-	total: number;
-	items: ILarekItem[];
-};
 
 /**
  * Тип ответа на отправку заказа
