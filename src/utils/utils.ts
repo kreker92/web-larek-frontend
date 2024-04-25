@@ -2,15 +2,15 @@ export function pascalToKebab(value: string): string {
 	return value.replace(/([a-z0–9])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
-export function isSelector(x: any): x is string {
+export function isSelector(x: unknown): x is string {
 	return typeof x === 'string' && x.length > 1;
 }
 
-export function isEmpty(value: any): boolean {
+export function isEmpty(value: unknown): boolean {
 	return value === null || value === undefined;
 }
 
-export type SelectorCollection<T> = string | NodeListOf<Element> | T[];
+type SelectorCollection<T> = string | NodeListOf<Element> | T[];
 
 export function ensureAllElements<T extends HTMLElement>(
 	selectorElement: SelectorCollection<T>,
@@ -28,7 +28,7 @@ export function ensureAllElements<T extends HTMLElement>(
 	throw new Error(`Unknown selector element`);
 }
 
-export type SelectorElement<T> = T | string;
+type SelectorElement<T> = T | string;
 
 export function ensureElement<T extends HTMLElement>(
 	selectorElement: SelectorElement<T>,
@@ -51,7 +51,7 @@ export function ensureElement<T extends HTMLElement>(
 }
 
 export function cloneTemplate<T extends HTMLElement>(
-	query: string | HTMLTemplateElement
+	query: HTMLTemplateElement
 ): T {
 	const template = ensureElement(query) as HTMLTemplateElement;
 	return template.content.firstElementChild.cloneNode(true) as T;
@@ -75,13 +75,14 @@ export function getObjectProperties(
 	obj: object,
 	filter?: (name: string, prop: PropertyDescriptor) => boolean
 ): string[] {
-	return Object.entries(
-		Object.getOwnPropertyDescriptors(Object.getPrototypeOf(obj))
-	)
-		.filter(([name, prop]: [string, PropertyDescriptor]) =>
-			filter ? filter(name, prop) : name !== 'constructor'
-		)
-		.map(([name, _]) => name);
+	return (
+		Object.entries(Object.getOwnPropertyDescriptors(Object.getPrototypeOf(obj)))
+			.filter(([name, prop]: [string, PropertyDescriptor]) =>
+				filter ? filter(name, prop) : name !== 'constructor'
+			)
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			.map(([name, prop]) => name)
+	);
 }
 
 /**
@@ -101,6 +102,7 @@ export function setElementData<T extends Record<string, unknown> | object>(
  */
 export function getElementData<T extends Record<string, unknown>>(
 	el: HTMLElement,
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	scheme: Record<string, Function>
 ): T {
 	const data: Partial<T> = {};
@@ -150,4 +152,8 @@ export function createElement<T extends HTMLElement>(
 		}
 	}
 	return element;
+}
+
+export function formatNumber(x: number, sep = ' ') {
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep);
 }

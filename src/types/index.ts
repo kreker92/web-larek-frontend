@@ -1,9 +1,4 @@
 /**
- * Типы оплаты: онлайн, при получении
- */
-export type Payment = 'online' | 'cash';
-
-/**
  * Интерфейс класса Api
  */
 export interface IApi {
@@ -19,7 +14,15 @@ export type ApiListResponse<Type> = {
 	total: number;
 	items: Type[];
 };
-// ILarekItem
+
+/**
+ * Свойства страницы
+ */
+export interface IPage {
+	counter: number;
+	catalog: HTMLElement[];
+	locked: boolean;
+}
 
 /**
  * Поля карточки товара
@@ -31,6 +34,7 @@ export type ILarekItem = {
 	image: string;
 	price: number | null;
 	description: string;
+	isIncluded?: boolean;
 };
 
 /**
@@ -38,28 +42,25 @@ export type ILarekItem = {
  */
 export interface IAppState {
 	catalog: ILarekItem[];
-	basket: Pick<ILarekItem, 'id'>[];
+	basket: string[];
 	preview: string | null;
 	order: IOrder | null;
 	loading: boolean;
 }
 
 export interface IOrderForm {
+	payment: string;
 	address: string;
 	email: string;
 	phone: string;
-	payment: Payment;
 }
 
-export interface IOrder extends IOrderForm {
-	items: Pick<ILarekItem, 'id'>[];
-	total: number;
-}
+export interface IOrder extends IOrderForm, ApiListResponse<string> {}
 
 /**
  * Тип ответа на отправку заказа
  */
-type OrderResponse = Partial<{
+export type OrderResponse = Partial<{
 	id: string;
 	total: number;
 	error: string;
@@ -74,12 +75,8 @@ export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
  * Интерфейс класса LarekApi
  */
 export interface ILarekApi extends IApi {
-	getCards(uri: string): Promise<ILarekItemsResponse>;
-	sendOrder(
-		uri: string,
-		data: IOrder,
-		method?: ApiPostMethods
-	): Promise<OrderResponse>;
+	getItemList(): Promise<ApiListResponse<ILarekItem>>;
+	makeOrder(data: IOrder): Promise<OrderResponse>;
 }
 
 /**
@@ -90,3 +87,78 @@ export interface IModal {
 	open(): void;
 	close(): void;
 }
+
+/**
+ * Поля корзины товаров
+ */
+export interface IBasketView {
+	items: HTMLElement[];
+	total: number;
+}
+
+/**
+ * Интерфейс Компонента формы
+ */
+export interface IFormState<T> {
+	valid: boolean;
+	errors: string[];
+	onInputChanges: (field: keyof T, value: string) => void;
+}
+/**
+ * Интерфейс модального окна
+ */
+export interface IModalData {
+	content: HTMLElement;
+}
+
+/**
+ * Методы в карточке товара
+ */
+export interface ICardActions {
+	onClick: (event: MouseEvent) => void;
+}
+
+/**
+ * Карточка товара
+ */
+export interface ICard {
+	title: string;
+	description?: string | string[];
+	image: string;
+	category: string;
+	price: number | null;
+	constructPrice(price: number | null): string;
+	isIncluded?: boolean;
+}
+
+/**
+ * Интерфейс класса EventEmitter
+ */
+export interface IEvents {
+	on<T extends object>(event: EventName, callback: (data: T) => void): void;
+	emit<T extends object>(event: string, data?: T): void;
+}
+
+/**
+ * Интерфейс компонента Success
+ */
+export interface ISuccess {
+	total: number;
+}
+
+/**
+ * Методы компонента Success
+ */
+export interface ISuccessActions {
+	onClick: () => void;
+}
+
+/**
+ * тип ключа события
+ */
+export type EventName = string | RegExp;
+/**
+ * Тип коллбэка
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type Subscriber = Function;
