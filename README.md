@@ -67,7 +67,6 @@ yarn build
 - order - все данные по заказу (товары + данные клиента)
 - preview - какой товар открыт в модальном окне (id товара)
 - formError - сообщение об ошибке после отправки заказа
-
 - toggleOrderedItem - добавление/удаление товара из корзины
 - clearBasket - очистка корзины
 
@@ -101,6 +100,7 @@ yarn build
 - toggleClass - переключает класс элемента
 - setText - установит текст в элемент
 - setImage - установит картинку в элемент
+- setDisabled - поменять аттрибут disable у элемента
 - render - вернет HTMLElement
 
 Базовый класс всех сущностей Model
@@ -139,6 +139,7 @@ yarn build
 
 - items - товары в корзине
 - total - цена товаров в корзине
+- setDisabledButton - поменять аттрибут disable у кнопки 
 
 ### Success
 
