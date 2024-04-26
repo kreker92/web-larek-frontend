@@ -1,9 +1,8 @@
 import { Component } from '../base/Component';
 import { createElement, ensureElement, formatNumber } from '../../utils/utils';
 import { EventEmitter } from '../base/events';
-import { IBasketView } from '../../types';
 
-export class Basket extends Component<IBasketView> {
+export class Basket<T> extends Component<T> {
 	protected _list: HTMLElement;
 	protected _total: HTMLElement;
 	protected _button: HTMLElement;
@@ -45,6 +44,10 @@ export class Basket extends Component<IBasketView> {
 				})
 			);
 		}
+	}
+
+	setDisabledButton(state: boolean) {
+		super.setDisabled(this._button, state);
 	}
 
 	set total(total: number) {

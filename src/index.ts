@@ -67,8 +67,6 @@ events.on('items:changed', () => {
 			isIncluded: appData.order.items.includes(item.id),
 		});
 	});
-
-	page.counter = appData.order.items.length;
 });
 
 // Открыть товар
@@ -85,7 +83,6 @@ events.on('preview:changed', (item: LarekItem) => {
 	const card = new CatalogItem(cloneTemplate(cardPreviewTemplate), {
 		onClick: () => {
 			events.emit('card:toggle', resItem);
-			page.counter = appData.order.items.length;
 		},
 	});
 
@@ -105,6 +102,8 @@ events.on('card:toggle', (item: LarekItem) => {
 // Посчитать тотал в заказе
 events.on('order:change', () => {
 	appData.setTotal();
+	page.counter = appData.order.items.length;
+	basket.setDisabledButton(!page.counter);
 });
 
 // Открыть корзину с товарами

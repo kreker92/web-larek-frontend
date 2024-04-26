@@ -1,6 +1,5 @@
 import { Form } from './common/Form';
-import { IOrderForm } from '../types';
-import { IEvents } from './base/events';
+import { IOrderForm, IEvents } from '../types';
 
 export class Contacts extends Form<IOrderForm> {
 	protected _buttons: NodeListOf<HTMLButtonElement>;

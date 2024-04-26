@@ -20,6 +20,14 @@ export abstract class Component<T> {
 		}
 	}
 
+	// Сменить статус блокировки
+	setDisabled(element: HTMLElement, state: boolean) {
+		if (element) {
+			if (state) element.setAttribute('disabled', 'disabled');
+			else element.removeAttribute('disabled');
+		}
+	}
+
 	// Установить изображение с alt текстом
 	protected setImage(element: HTMLImageElement, src: string, alt?: string) {
 		if (element) {

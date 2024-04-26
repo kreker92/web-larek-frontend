@@ -1,6 +1,5 @@
 import { Form } from './common/Form';
-import { IOrderForm } from '../types';
-import { IEvents } from './base/events';
+import { IOrderForm, IEvents } from '../types';
 import clsx from 'clsx';
 
 export class Order extends Form<Pick<IOrderForm, 'payment' | 'address'>> {

@@ -1,7 +1,6 @@
 import { Component } from './base/Component';
-import { IEvents } from './base/events';
 import { ensureElement } from '../utils/utils';
-import { IPage } from '../types';
+import { IPage, IEvents } from '../types';
 
 export class Page extends Component<IPage> {
 	protected _counter: HTMLElement;
@@ -24,6 +23,10 @@ export class Page extends Component<IPage> {
 
 	set counter(value: number) {
 		this.setText(this._counter, String(value));
+	}
+
+	get counter() {
+		return +(this._counter.textContent || 0);
 	}
 
 	set catalog(items: HTMLElement[]) {
