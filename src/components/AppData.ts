@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { Model } from './base/Model';
 import { IAppState, ILarekItem, IOrder, IOrderForm } from '../types';
+import { Form } from './common/Form';
 
 export class LarekItem extends Model<ILarekItem> {
 	description: string;
@@ -38,6 +39,22 @@ export class AppState extends Model<IAppState> {
 	clearBasket() {
 		this.order.items.forEach((id) => {
 			this.toggleOrderedItem(id, false);
+		});
+	}
+
+	clearOrderForm(...forms: Partial<IOrderForm>[]) {
+		([
+			'payment',
+			'address',
+			'email',
+			'phone',
+		] as (keyof IOrderForm)[]).forEach((field) => {
+			this.setOrderField(field, '');
+			forms.forEach(form => {
+				if (form instanceof Form && field in form) {
+					form[field] = this.order[field];
+				}
+			});
 		});
 	}
 

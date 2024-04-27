@@ -66,7 +66,8 @@ export class Card<T> extends Component<T> implements ICard {
 	}
 
 	get price(): ILarekItem['price'] {
-		return isNaN(+this._price) ? null : +this._price;
+		console.log(this._price.textContent);
+		return isNaN(+this._price.textContent.split(' ')[0]) ? null : +this._price;
 	}
 
 	set button(isIncluded: boolean) {
@@ -119,6 +120,7 @@ export class CatalogItem extends Card<ILarekItem> {
 
 	render(data?: Partial<ILarekItem>): HTMLElement {
 		this.button = data.isIncluded;
+		this.setDisabled(this._button, data.price === null);
 		return super.render(data);
 	}
 }

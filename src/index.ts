@@ -2,7 +2,7 @@ import './scss/styles.scss';
 
 import { LarekAPI } from './components/LarekAPI';
 import { API_URL, CDN_URL } from './utils/constants';
-import { EventEmitter } from './components/base/events';
+import { EventEmitter } from './components/base/Events';
 import { AppState, LarekItem } from './components/AppData';
 import { Page } from './components/Page';
 
@@ -48,8 +48,6 @@ const contacts = new Contacts(cloneTemplate(contactsTemplate), events);
 const success = new Success(cloneTemplate(successTemplate), {
 	onClick: () => {
 		modal.close();
-		appData.clearBasket();
-		page.counter = appData.order.items.length;
 	},
 });
 
@@ -194,12 +192,20 @@ events.on('contacts:submit', () => {
 				modal.render({
 					content: success.render(result),
 				});
+				events.emit('order:clear');
 			}
 		})
 		.catch((err) => {
 			contacts.errors = err as string;
 			console.error(err);
 		});
+});
+
+// Очистка корзины
+events.on('order:clear', () => {
+	appData.clearBasket();
+	page.counter = appData.order.items.length;
+	appData.clearOrderForm(order, contacts);
 });
 
 // Блокируем прокрутку страницы если открыта модалка
