@@ -43,19 +43,16 @@ export class AppState extends Model<IAppState> {
 	}
 
 	clearOrderForm(...forms: Partial<IOrderForm>[]) {
-		([
-			'payment',
-			'address',
-			'email',
-			'phone',
-		] as (keyof IOrderForm)[]).forEach((field) => {
-			this.setOrderField(field, '');
-			forms.forEach(form => {
-				if (form instanceof Form && field in form) {
-					form[field] = this.order[field];
-				}
-			});
-		});
+		(['payment', 'address', 'email', 'phone'] as (keyof IOrderForm)[]).forEach(
+			(field) => {
+				this.setOrderField(field, '');
+				forms.forEach((form) => {
+					if (form instanceof Form && field in form) {
+						form[field] = this.order[field];
+					}
+				});
+			}
+		);
 	}
 
 	setCatalog(items: ILarekItem[]) {

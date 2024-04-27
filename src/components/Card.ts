@@ -66,7 +66,6 @@ export class Card<T> extends Component<T> implements ICard {
 	}
 
 	get price(): ILarekItem['price'] {
-		console.log(this._price.textContent);
 		return isNaN(+this._price.textContent.split(' ')[0]) ? null : +this._price;
 	}
 

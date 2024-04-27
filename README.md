@@ -139,7 +139,7 @@ yarn build
 
 - items - товары в корзине
 - total - цена товаров в корзине
-- setDisabledButton - поменять аттрибут disable у кнопки 
+- setDisabledButton - поменять аттрибут disable у кнопки
 
 ### Success
 
@@ -168,6 +168,7 @@ yarn build
 
 - toggleOrderedItem - добавление/удаление товара из заказа
 - clearBasket - очистить корзину
+- clearOrderForm - очистить поля переданных форм
 - setTotal - перезаписать сумму заказа
 - setCatalog - создать каталог, добавить слушатель на изменение товаров (если будет новый запрос в api за товарами)
 - setPreview - вернуть товар для показа в модальном окне
@@ -190,3 +191,4 @@ yarn build
 - card:select - показать товар в модальном окне
 - order:validate - Валидация формы заказа
 - contacts:validate - Валидация формы контатов
+- order:clear - очистка корзины и форм заказа
