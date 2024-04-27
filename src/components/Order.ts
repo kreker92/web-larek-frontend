@@ -30,11 +30,23 @@ export class Order extends Form<Pick<IOrderForm, 'payment' | 'address'>> {
 			value;
 	}
 
+	get address() {
+		return (this.container.elements.namedItem('address') as HTMLInputElement).value;
+	}
+
 	set payment(value: string) {
 		this._buttons.forEach((button) => {
 			button.className = clsx('button', 'button_alt', {
 				'button_alt-active': button.name === value,
 			});
 		});
+	}
+
+	setErrors() {
+		const fields: string[] = [];
+		if (!this.address) {
+			fields.push('Адрес доставки');
+		}
+		super.setErrors(fields);
 	}
 }

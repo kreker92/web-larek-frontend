@@ -35,8 +35,13 @@ export class Form<T> extends Component<IFormState<T>> {
 		});
 	}
 
-	set valid(value: boolean) {
-		this._submit.disabled = !value;
+	set valid(state: boolean) {
+		this._submit.disabled = !state;
+	}
+
+	setErrors(fields: string[]) {
+		const errorMsg = fields.length ? `Поля: "${fields.join(', ')}" не заполнены` : '';
+		this.errors = errorMsg;
 	}
 
 	set errors(value: string) {

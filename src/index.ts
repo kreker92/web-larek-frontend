@@ -163,6 +163,7 @@ events.on(
 // Валидация формы заказа
 events.on('order:validate', () => {
 	order.valid = !!(appData.order.payment && appData.order.address);
+	order.setErrors();
 });
 
 // Валидация формы контатов
@@ -173,6 +174,7 @@ events.on('contacts:validate', () => {
 		appData.order.phone &&
 		appData.order.email
 	);
+	contacts.setErrors();
 });
 
 // Отправка формы order
